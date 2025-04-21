@@ -2,49 +2,75 @@
 
 const restaurant = {
   name: "Phelps Cook",
-  location: "Abuja, Nigeria",
+  residence: "Abuja, Nigeria",
   categories: ["Fast-Food", "Snacks", "Classic"],
-  starterMenu: ["Fried-Rice", "Amala", "Beans","Fried Chicken", "Cake"],
+  starterMenu: ["Fried-Rice", "Amala", "Beans", "Fried Chicken", "Cake"],
   mainMenu: ["Pasta", "Meat-Pie", "Pounded-Yam"],
   order: function(starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]]
+  },
+
+  orderDelivery: function ({time, address, mainIndex, starterIndex}) {
+    console.log(`Order delivered! ${this.mainMenu[mainIndex]} and ${this.starterMenu[starterIndex]} will be delivered to ${address} at ${time}.`)
+  },
+   
+  openingHours: {
+  
+    thu: {
+      open: 10,
+      close: 20,
+    },
+
+    fri: {
+        open: 10,
+        close: 22,
+    },
+
+    sat: {
+      open: 9,
+      close: 23,
+    },
+    
   }
 };
 
-//First Example 
-const arr = [2, 3, 4];
-const [a, b, c] = arr;
+//Basic destructuring 
+const {name, residence} = restaurant;
+console.log(name, residence);
 
-//console.log(b, c);
+//Changing the property name 
+const {
+  name: restaurantName,
+  openingHours: time
+} = restaurant;
 
-// <<< I observed that destructuring is like assigning values to variables. >>>
+console.log(restaurantName, time);
+ 
+//Setting default value and also changing property name
+const {residence: address = [], contact = []} = restaurant;
+console.log(address, contact);
 
-// <<< Destructuring the object example >>>
-// Getting the 2nd and 4th food in the starter menu --- other testing.
-const [ ,second, ,fourth] = restaurant.starterMenu;
-console.log(second, fourth);
+//Mutation in object 
+let a = "first";
+let b = "second";
+const muth = {a: "third", b: "forth"};
+({a, b} = muth);
+console.log(a, b);
 
-const [x, y, z] = restaurant.mainMenu;
-console.log(x, y, z);
+//Destructuring nested objects
+const {fri} = restaurant.openingHours;
+console.log(fri);
 
-//Switching variables or order in array
-let [one, two] = restaurant.categories;
-console.log(one, two);
+const {sat: {open, close}} = restaurant.openingHours;
+console.log(open, close);
 
-[one, two] = [two, one];
-console.log(one, two)
+//Destructuring objects in method 
+ restaurant.orderDelivery ({
+   time: "15:30",
+   address: "Wale Street, Asokoro",
+   mainIndex: 2,
+   starterIndex: 2,
+   })
 
-//Creating variables from function call or Function returning an array and then destructuring it.
-// console.log(restaurant.order(1, 1)) 
-const [start, main] = restaurant.order(0, 1);
-console.log(start, main);
 
-//Destructuring nested array
-const nestArr = [1, 3, 4, [7, 8]];
-const [j, ,k, [l, m]] = nestArr;
-console.log(j, k, l, m);
-
-//Using default values for arrays
-const ballColourVote = ["Red", "Yellow", "Green"];
-const [r, s, t, u = "Purple"] = ballColourVote;
-console.log(r, s, t, u);
+  
